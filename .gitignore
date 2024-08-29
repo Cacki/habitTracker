@@ -1,0 +1,46 @@
+# Compiled class files
+*.class
+
+# Log files
+*.log
+
+# Maven output directory
+target/
+
+# IntelliJ IDEA specific files
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# VS Code specific files
+.vscode/
+
+# MacOS specific files
+.DS_Store
+
+# Windows specific files
+Thumbs.db
+
+# Maven specific files
+mvnw
+mvnw.cmd
+.wrapper/
+!/.mvn/wrapper/maven-wrapper.jar
+
+# JetBrains (IntelliJ IDEA, PyCharm) specific files
+.idea/
+*.iml
+out/
+
+# Spring Boot specific files
+spring-boot-devtools.jar
+
+# Temporary files
+*.swp
+*~
+
+# Generated files
+*.jar
+*.war
+*.ear
