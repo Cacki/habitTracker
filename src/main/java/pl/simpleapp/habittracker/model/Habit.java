@@ -1,8 +1,6 @@
-package pl.simpleapp.habittracker;
+package pl.simpleapp.habittracker.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 
