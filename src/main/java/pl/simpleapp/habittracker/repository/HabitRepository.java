@@ -34,17 +34,23 @@ public class HabitRepository {
     }
 
     public int add(List<Habit> habits) {
-        habits.forEach(habit -> {
-            jdbcTemplate.update(INSERT, habit.getName(), habit.getDescription(), habit.getStartDate());
-        });
-        return 1;
+        int totalInserted = 0;
+        for (Habit habit : habits) {
+            int rowsAffected = jdbcTemplate.update(INSERT, habit.getName(), habit.getDescription(), habit.getStartDate());
+            if (rowsAffected > 0) {
+                totalInserted++;
+            }
+        }
+        return totalInserted;
     }
 
-    public int update(Habit habit) {
-        return jdbcTemplate.update(UPDATE, habit.getName(), habit.getDescription(), habit.getStartDate(), habit.getId());
+    public boolean update(Habit habit) {
+        int rowsAffected = jdbcTemplate.update(UPDATE, habit.getName(), habit.getDescription(), habit.getStartDate(), habit.getId());
+        return rowsAffected > 0;
     }
 
-    public int delete(int id) {
-        return jdbcTemplate.update(DELETE, id);
+    public boolean delete(int id) {
+        int rowsAffected = jdbcTemplate.update(DELETE, id);
+        return rowsAffected > 0;
     }
 }

@@ -22,30 +22,30 @@ public class HabitService {
     }
 
     public Habit getById(int id) {
-        //@TODO validate
         return repository.getById(id);
     }
 
-    public int add(List<Habit> habits) {
-        //@TODO validate
-        return repository.add(habits);
+    public boolean add(List<Habit> habits) {
+        if (habits == null || habits.isEmpty())
+            throw new IllegalArgumentException("Habits list must not be null or empty");
+
+        return repository.add(habits) > 0;
     }
 
-    public int update(int id, Habit updatedHabit) {
-        //@TODO validate
+    public boolean update(int id, Habit updatedHabit) {
         Habit habit = repository.getById(id);
+        if (habit == null)
+            return false;
 
-        if (habit != null) {
-            updateValues(habit, updatedHabit);
-            return repository.update(habit);
-        } else {
-            return -1;
-        }
-
+        updateValues(habit, updatedHabit);
+        return repository.update(habit);
     }
 
-    public int delete(int id) {
-        //@TODO validate
+    public boolean delete(int id) {
+        Habit habit = repository.getById(id);
+        if (habit == null)
+            return false;
+
         return repository.delete(id);
     }
 

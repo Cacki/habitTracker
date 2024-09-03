@@ -1,6 +1,8 @@
 package pl.simpleapp.habittracker.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.simpleapp.habittracker.model.Habit;
 import pl.simpleapp.habittracker.service.HabitService;
@@ -19,33 +21,52 @@ public class HabitController {
     }
 
     @GetMapping("/")
-    public List<Habit> getAll() {
-        return service.getAll();
+    public ResponseEntity<List<Habit>> getAll() {
+        List<Habit> habits = service.getAll();
+        return ResponseEntity.ok(habits);
     }
 
     @GetMapping("/{id}")
-    public Habit getById(@PathVariable("id") int id) {
-        return service.getById(id);
+    public ResponseEntity<Habit> getById(@PathVariable("id") int id) {
+        Habit habit = service.getById(id);
+        if (habit != null) {
+            return ResponseEntity.ok(habit);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PostMapping("/")
-    public int add(@RequestBody List<Habit> habits) {
-        return service.add(habits);
+    public ResponseEntity<Void> add(@RequestBody List<Habit> habits) {
+        service.add(habits);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PutMapping("/{id}")
-    public int updatePut(@PathVariable("id") int id, @RequestBody Habit updatedHabit) {
-        return service.update(1, updatedHabit);
+    public ResponseEntity<Void> updatePut(@PathVariable("id") int id, @RequestBody Habit updatedHabit) {
+        if (service.update(id, updatedHabit)) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PatchMapping("/{id}")
-    public int updatePath(@PathVariable("id") int id, @RequestBody Habit updatedHabit) {
-        return service.update(id, updatedHabit);
+    public ResponseEntity<Void> updatePath(@PathVariable("id") int id, @RequestBody Habit updatedHabit) {
+        if (service.update(id, updatedHabit)) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @DeleteMapping("/{id}")
-    public int delete(@PathVariable("id") int id) {
-        return service.delete(id);
+    public ResponseEntity<Void> delete(@PathVariable("id") int id) {
+        if (service.delete(id)) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
 }
